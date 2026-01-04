@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="style.css">
     <title>Projeto</title>
 </head>
 <body>
-    <h1>Formulário</h1>
-    <form action="http://localhost:3003/" method="post">
-        Nome: <input type="text" name="name"><br>
-        Email: <input type="text" name="email"><br>
-        CEP:  <input type="text" name="CEP"><br>
+    <form action="/enviar" method="post">
+        Nome*: <input type="text" id="nome" name="nome"><br>
+        Email*: <input type="text" id ="email" name="email"><br>
+        Telefone*: <input type="text" id="telefone" name="telefone" maxlength="15" placeholder="(XX) XXXXX-XXXX"><br>
+        Logradouro*:  <input type="text" id="logradouro" name="logradouro"><br>
+        CEP*:  <input type="text" id="CEP" name="CEP"><br>
+        Bairro*:  <input type="text" id="bairro" name="bairro"><br>
+        Número*:  <input type="text" id="numero" name="numero"><br>
         <button>Submit</button>
+        
     </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
