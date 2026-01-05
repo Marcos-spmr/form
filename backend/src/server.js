@@ -1,6 +1,4 @@
-const dotenv = require('dotenv')
-const mongoose = require('mongoose')
-const consulta = require('./database.js')
+const database = require('./database.js')
 const api = require('./api.js')
 const porta = 3003
 const express = require('express')
@@ -9,18 +7,7 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const { validaLogradouro, validaDados } = require('./utils.js')
 
-dotenv.config();
-
-const connectDB = async () =>{
-    try {
-        await mongoose.connect(process.env.MONGO_URI)
-        console.log("Conectado ao MongoDB")    
-    } catch (error) {
-        console.log("Deu erro ao conectar com o MongoDB", error)
-    }
-}
-
-connectDB();
+database.connectDB();
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.json());
@@ -48,7 +35,7 @@ app.post('/api/consultar-endereco', async (req, res, err) => {
                 logradouro: req.body.logradouro,
                 resultados: endereco
             }
-            const novaConsulta = await consulta.create(objetoConsulta)
+            await database.consulta.create(objetoConsulta)
             console.log("Salvo no banco")
             
              res.json(endereco)
@@ -62,7 +49,7 @@ app.post('/api/consultar-endereco', async (req, res, err) => {
 app.post('/enviar', async(req, res) => {
     console.log(req.body)
     const body = req.body
-    const resultado = validaDados(req.body)
+    const resultado = validaDados(body)
 
     resultado.valido ? res.status(200).json({mensagem : "Dados válidos"}) : res.status(400).json({mensagem: "Dados inválidos", detalhes: resultado.erros})
 })

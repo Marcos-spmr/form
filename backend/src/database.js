@@ -1,4 +1,16 @@
 const mongoose = require('mongoose')
+const dotenv = require('dotenv')
+
+dotenv.config();
+
+const connectDB = async () =>{
+    try {
+        await mongoose.connect(process.env.MONGO_URI)
+        console.log("Conectado ao MongoDB")    
+    } catch (error) {
+        console.log("Deu erro ao conectar com o MongoDB", error)
+    }
+}
 
 const consultaSchema = new mongoose.Schema({
     uf: String,
@@ -9,4 +21,9 @@ const consultaSchema = new mongoose.Schema({
     dataConsulta: { type: Date, default: Date.now }
 })
 
-module.exports = mongoose.model('consulta', consultaSchema);
+const consulta = mongoose.model('consulta', consultaSchema);
+
+module.exports = { 
+    consulta, 
+    connectDB 
+};
